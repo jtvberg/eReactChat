@@ -37,19 +37,3 @@ export async function login({email, password}) {
 export const logout = () => signOut(getAuth())
 
 export const onAuthStateChanges = onAuth => onAuthStateChanged(getAuth(), onAuth)
-
-// const createUserProfile = userProfile =>
-//   db
-//     .collection('profiles')
-//     .doc(userProfile.uid)
-//     .set(userProfile)
-
-// export async function register({email, password, username, avatar}) {
-//   try {
-//     const auth = getAuth()
-//     const { user } = await createUserWithEmailAndPassword(auth, email, password)
-//     await createUserProfile({ uid: user.uid, username, email, avatar, joinedChats: [] })
-//   } catch(err) {
-//     return Promise.reject(err.message)
-//   }
-// }
