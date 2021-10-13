@@ -1,47 +1,50 @@
-import { combineReducers } from 'redux'
-import { createReducer } from '@reduxjs/toolkit'
+import { combineReducers } from 'redux';
+import { createReducer } from '@reduxjs/toolkit';
 
 function createChatReducer() {
   const joined = (state = [], action) => {
-    switch(action.type) {
+    switch (action.type) {
       case 'CHATS_FETCH_RESTART':
-        return []
+        return [];
       case 'CHATS_FETCH_SUCCESS':
-        return action.joined
+        return action.joined;
       case 'CHATS_JOIN_SUCCESS':
-        return [...state, action.chat]
+        return [...state, action.chat];
       default: {
-        return state
+        return state;
       }
     }
-  }
+  };
 
   const available = (state = [], action) => {
-    switch(action.type) {
+    switch (action.type) {
       case 'CHATS_FETCH_RESTART':
-        return []
+        return [];
       case 'CHATS_FETCH_SUCCESS':
-        return action.available
+        return action.available;
       case 'CHATS_JOIN_SUCCESS':
-        return state.filter(chat => chat.id !== action.chat.id)
+        return state.filter((chat) => chat.id !== action.chat.id);
       default: {
-        return state
+        return state;
       }
     }
-  }
+  };
 
-  const activeChats = createReducer({}, {
-    'CHATS_SET_ACTIVE_CHAT': (state, action) => {
-      const { chat } = action
-      state[chat.id] = chat
+  const activeChats = createReducer(
+    {},
+    {
+      CHATS_SET_ACTIVE_CHAT: (state, action) => {
+        const { chat } = action;
+        state[chat.id] = chat;
+      },
     }
-  })
+  );
 
   return combineReducers({
     joined,
     available,
-    activeChats
-  })
+    activeChats,
+  });
 }
 
-export default createChatReducer()
+export default createChatReducer();

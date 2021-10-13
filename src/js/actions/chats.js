@@ -1,11 +1,11 @@
-import * as api from "../api/chats";
-import db from "../db/firestore";
-import { doc, getDoc } from "firebase/firestore";
+import * as api from '../api/chats';
+import db from '../db/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 
 export const fetchChats = () => async (dispatch, getState) => {
   const { user } = getState().auth;
   dispatch({
-    type: "CHATS_FETCH_INIT",
+    type: 'CHATS_FETCH_INIT',
   });
   const chats = await api.fetchChats();
   chats.forEach(
@@ -15,7 +15,7 @@ export const fetchChats = () => async (dispatch, getState) => {
   const sortedChats = chats.reduce(
     (allChats, chat) => {
       allChats[
-        chat.joinedUsers.includes(user.uid) ? "joined" : "available"
+        chat.joinedUsers.includes(user.uid) ? 'joined' : 'available'
       ].push(chat);
       return allChats;
     },
@@ -26,7 +26,7 @@ export const fetchChats = () => async (dispatch, getState) => {
   );
 
   dispatch({
-    type: "CHATS_FETCH_SUCCESS",
+    type: 'CHATS_FETCH_SUCCESS',
     ...sortedChats,
   });
 };
@@ -34,7 +34,7 @@ export const fetchChats = () => async (dispatch, getState) => {
 export const joinChat = (chat, uid) => async (dispatch) => {
   await api.joinChat(uid, chat.id).then((_) => {
     dispatch({
-      type: "CHATS_JOIN_SUCCESS",
+      type: 'CHATS_JOIN_SUCCESS',
       chat,
     });
   });
@@ -44,14 +44,14 @@ export const createChat = (formData, userId) => async (dispatch) => {
   const newChat = {
     ...formData,
   };
-  newChat.admin = doc(db, "profiles", userId);
+  newChat.admin = doc(db, 'profiles', userId);
   const chatId = await api.createChat(newChat);
   dispatch({
-    type: "CHATS_CREATE_SUCCESS",
+    type: 'CHATS_CREATE_SUCCESS',
   });
   await api.joinChat(userId, chatId);
   dispatch({
-    type: "CHATS_JOIN_SUCCESS",
+    type: 'CHATS_JOIN_SUCCESS',
     chat: {
       ...newChat,
       id: chatId,
@@ -73,7 +73,7 @@ export const subscribeToChat = (chatId) => (dispatch) => {
     chat.id = chatId;
     chat.joinedUsers = joinedUsers;
     dispatch({
-      type: "CHATS_SET_ACTIVE_CHAT",
+      type: 'CHATS_SET_ACTIVE_CHAT',
       chat,
     });
   });
@@ -82,7 +82,7 @@ export const subscribeToChat = (chatId) => (dispatch) => {
 export const subscribeToProfile = (uid) => (dispatch) => {
   api.subscribeToProfile(uid, (user) => {
     dispatch({
-      type: "CHATS_UPDATE_USER_STATE",
+      type: 'CHATS_UPDATE_USER_STATE',
       user,
     });
   });

@@ -1,21 +1,21 @@
-import { combineReducers } from "redux"
+import { combineReducers } from 'redux';
 
 function createAppReducer() {
-  const { onLine } = navigator
+  const { onLine } = navigator;
   const isOnline = (state = onLine, action) => {
-    switch(action.type) {
+    switch (action.type) {
       case 'APP_IS_ONLINE':
       case 'APP_IS_OFFLINE':
-        return action.isOnline
+        return action.isOnline;
       default: {
-        return state
+        return state;
       }
     }
-  }
+  };
 
   return combineReducers({
-    isOnline
-  })
+    isOnline,
+  });
 }
 
-export default createAppReducer()
+export default createAppReducer();

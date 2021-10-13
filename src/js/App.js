@@ -1,59 +1,65 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import StoreProvider from './store/StoreProvider'
-import HomeView from './views/Home'
-import SettingsView from './views/Settings'
-import WelcomeView from './views/Welcome'
-import ChatView from './views/Chat'
-import LoadingView from './components/shared/LoadingView'
-import ChatCreate from './views/ChatCreate'
-import { listenToAuthChanges } from './actions/auth'
-
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import StoreProvider from './store/StoreProvider';
+import HomeView from './views/Home';
+import SettingsView from './views/Settings';
+import WelcomeView from './views/Welcome';
+import ChatView from './views/Chat';
+import LoadingView from './components/shared/LoadingView';
+import ChatCreate from './views/ChatCreate';
+import { listenToAuthChanges } from './actions/auth';
+import { checkUserConnection } from './actions/connection';
 import {
   HashRouter as Router,
   Switch,
   Route,
-  Redirect
-} from 'react-router-dom'
-import { listenToConnectionChanges } from './actions/app'
-import app from './reducers/app'
+  Redirect,
+} from 'react-router-dom';
+import { listenToConnectionChanges } from './actions/app';
 
-function AuthRoute({children, ...rest}) {
-  const user = useSelector(({auth}) => auth.user)
-  const onlyChild = React.Children.only(children)
+function AuthRoute({ children, ...rest }) {
+  const user = useSelector(({ auth }) => auth.user);
+  const onlyChild = React.Children.only(children);
   return (
     <Route
       {...rest}
-      render = {props => 
-        user ? React.cloneElement(onlyChild, {...rest, ...props}) : <Redirect to="/"/>
+      render={(props) =>
+        user ? (
+          React.cloneElement(onlyChild, { ...rest, ...props })
+        ) : (
+          <Redirect to="/" />
+        )
       }
     />
-  )
+  );
 }
 
-const ContentWrapper = ({children}) => <div className='content-wrapper'>{children}</div>
+const ContentWrapper = ({ children }) => (
+  <div className="content-wrapper">{children}</div>
+);
 
 function ChatApp() {
-  const dispatch = useDispatch()
-  const isChecking = useSelector(({auth}) => auth.isChecking)
-  const isOnline = useSelector(({app}) => app.isOnline)
+  const dispatch = useDispatch();
+  const isChecking = useSelector(({ auth }) => auth.isChecking);
+  const isOnline = useSelector(({ app }) => app.isOnline);
 
   useEffect(() => {
-    const unsubFromAuth = dispatch(listenToAuthChanges())
-    const unsubFromConnection = dispatch(listenToConnectionChanges())
+    const unsubFromAuth = dispatch(listenToAuthChanges());
+    const unsubFromConnection = dispatch(listenToConnectionChanges());
+    const unsubFromUserConnection = dispatch(checkUserConnection());
 
     return () => {
-      unsubFromAuth()
-      unsubFromConnection()
-    }
-  }, [dispatch])
+      unsubFromAuth();
+      unsubFromConnection();
+    };
+  }, [dispatch]);
 
   if (!isOnline) {
-    return <LoadingView message="Connection lost..."/>
+    return <LoadingView message="Connection lost..." />;
   }
 
   if (isChecking) {
-    return <LoadingView/>
+    return <LoadingView />;
   }
 
   return (
@@ -61,30 +67,30 @@ function ChatApp() {
       <ContentWrapper>
         <Switch>
           <Route path="/" exact>
-            <WelcomeView/>
+            <WelcomeView />
           </Route>
           <AuthRoute path="/home">
-            <HomeView/>
+            <HomeView />
           </AuthRoute>
           <AuthRoute path="/chatCreate">
-            <ChatCreate/>
+            <ChatCreate />
           </AuthRoute>
           <AuthRoute path="/chat/:id">
-            <ChatView/>
+            <ChatView />
           </AuthRoute>
           <AuthRoute path="/settings">
-            <SettingsView/>
+            <SettingsView />
           </AuthRoute>
         </Switch>
       </ContentWrapper>
     </Router>
-  )
+  );
 }
 
 export default function App() {
   return (
     <StoreProvider>
-      <ChatApp/>
+      <ChatApp />
     </StoreProvider>
-  )
+  );
 }

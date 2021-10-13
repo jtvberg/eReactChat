@@ -1,19 +1,18 @@
-
 export default {
   setup() {
     if (!('Notification' in window)) {
-      console.error('Window does not support notifications')
+      console.error('Window does not support notifications');
     } else if (Notification.permission === 'granted') {
-      return
+      return;
     } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission().then(perm => {
+      Notification.requestPermission().then((perm) => {
         if (perm === 'granted') {
-          console.log('permission granted')
+          console.log('permission granted');
         }
-      })
+      });
     }
   },
-  show({title, body}) {
-    new Notification(title, {body})
-  }
-}
+  show({ title, body }) {
+    new Notification(title, { body });
+  },
+};

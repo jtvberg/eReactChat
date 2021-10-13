@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default function ChatSearch() {
   return (
@@ -7,5 +7,5 @@ export default function ChatSearch() {
         <input className="form-control" placeholder="Search" />
       </div>
     </div>
-  )
+  );
 }

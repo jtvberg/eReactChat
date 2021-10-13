@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import ChatUsers from "../components/ChatUsers";
-import ChatMessages from "../components/ChatMessages";
-import ViewTitle from "../components/shared/ViewTitle";
-import { withBaseLayout } from "../layouts/Base";
-import { subscribeToChat, subscribeToProfile } from "../actions/chats";
+import React, { useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import ChatUsers from '../components/ChatUsers';
+import ChatMessages from '../components/ChatMessages';
+import ViewTitle from '../components/shared/ViewTitle';
+import { withBaseLayout } from '../layouts/Base';
+import { subscribeToChat, subscribeToProfile } from '../actions/chats';
 
 function Chat() {
   const { id } = useParams();

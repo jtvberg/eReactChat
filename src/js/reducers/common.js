@@ -1,25 +1,27 @@
-export const createErrorReducer = actionType =>
+export const createErrorReducer =
+  (actionType) =>
   (state = null, action) => {
-    switch(action.type) {
+    switch (action.type) {
       case `${actionType}_INIT`:
-        return null
+        return null;
       case `${actionType}_ERROR`:
-        console.log(action.error)
-        return action.error
+        console.log(action.error);
+        return action.error;
       default:
-        return state
+        return state;
     }
-  }
+  };
 
-  export const createFetchingReducer = actionType =>
-    (state = null, action) => {
-      switch(action.type) {
-        case `${actionType}_INIT`:
-          return true
-        case `${actionType}_SUCCESS`:
-        case `${actionType}_ERROR`:
-          return false
-        default:
-          return state
-      }
+export const createFetchingReducer =
+  (actionType) =>
+  (state = null, action) => {
+    switch (action.type) {
+      case `${actionType}_INIT`:
+        return true;
+      case `${actionType}_SUCCESS`:
+      case `${actionType}_ERROR`:
+        return false;
+      default:
+        return state;
     }
+  };

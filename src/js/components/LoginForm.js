@@ -1,20 +1,20 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import { loginUser } from '../actions/auth'
-import LoadingView from './shared/LoadingView'
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../actions/auth';
+import LoadingView from './shared/LoadingView';
 
 export default function LoginForm() {
-  const { register, handleSubmit } = useForm()
-  const dispatch = useDispatch()
-  const error = useSelector(({auth}) => auth.login.error)
-  const isChecking = useSelector(({auth}) => auth.login.isChecking)
-  const onSubmit = data => {
-    dispatch(loginUser(data))
-  }
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const error = useSelector(({ auth }) => auth.login.error);
+  const isChecking = useSelector(({ auth }) => auth.login.isChecking);
+  const onSubmit = (data) => {
+    dispatch(loginUser(data));
+  };
 
   if (isChecking) {
-    return <LoadingView/>
+    return <LoadingView />;
   }
 
   return (
@@ -25,24 +25,32 @@ export default function LoginForm() {
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
-            {...register("email")}
+            {...register('email')}
             type="email"
             className="form-control"
             id="email"
-            aria-describedby="emailHelp" />
-          <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+            aria-describedby="emailHelp"
+          />
+          <small id="emailHelp" className="form-text text-muted">
+            We'll never share your email with anyone else.
+          </small>
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
-            {...register("password")}
+            {...register('password')}
             type="password"
             className="form-control"
-            id="password" />
+            id="password"
+          />
         </div>
-        { error && <div className="alert alert-danger small">{error.message}</div>}
-        <button type="submit" className="btn btn-outline-primary">Login</button>
+        {error && (
+          <div className="alert alert-danger small">{error.message}</div>
+        )}
+        <button type="submit" className="btn btn-outline-primary">
+          Login
+        </button>
       </div>
     </form>
-  )
+  );
 }

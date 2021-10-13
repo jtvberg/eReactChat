@@ -1,6 +1,6 @@
-import React from "react";
-import ChatSearch from "./ChatSearch";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import ChatSearch from './ChatSearch';
+import { useHistory } from 'react-router-dom';
 
 export default function JoinedChats({ chats }) {
   const history = useHistory();
