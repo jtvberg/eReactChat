@@ -16,11 +16,12 @@ export const loginUser = (formData) => (dispatch) => {
     .catch((error) => dispatch({ type: 'AUTH_LOGIN_ERROR', error }));
 };
 
-export const logout = () => (dispatch) =>
+export const logout = () => (dispatch) => {  
   api.logout().then((_) => {
     dispatch({ type: 'AUTH_LOGOUT_SUCCESS' });
     dispatch({ type: 'CHATS_FETCH_RESTART' });
   });
+}
 
 export const listenToAuthChanges = () => (dispatch) => {
   dispatch({ type: 'AUTH_ON_INIT' });

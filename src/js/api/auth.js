@@ -46,5 +46,4 @@ export async function login({ email, password }) {
 
 export const logout = () => signOut(getAuth());
 
-export const onAuthStateChanges = (onAuth) =>
-  onAuthStateChanged(getAuth(), onAuth);
+export const onAuthStateChanges = (onAuth) => onAuthStateChanged(getAuth(), onAuth);

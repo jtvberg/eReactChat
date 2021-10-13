@@ -6,16 +6,29 @@ import appReducer from '../reducers/app';
 import appMiddleware from './middleware/app';
 
 export default function configureStore() {
-  const middleware = [thunkMiddleware, appMiddleware];
+  const middlewares = [thunkMiddleware, appMiddleware];
 
-  const store = createStore(
-    combineReducers({
-      chats: chatReducer,
-      auth: authReducer,
-      app: appReducer,
-    }),
-    applyMiddleware(...middleware)
-  );
+  const mainReducer = combineReducers({
+    chats: chatReducer,
+    auth: authReducer,
+    app: appReducer,
+  });
+
+  const rootReducer = (state, action) => {
+    if (action.type === 'AUTH_LOGOUT_SUCCESS') {
+      Object.keys(state).forEach((sk) => {
+        if (state[sk].savable) {
+          return;
+        }
+
+        state[sk] = undefined;
+      });
+    }
+
+    return mainReducer(state, action);
+  };
+
+  const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
   return store;
 }

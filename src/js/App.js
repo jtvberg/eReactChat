@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import StoreProvider from './store/StoreProvider';
 import HomeView from './views/Home';
 import SettingsView from './views/Settings';
@@ -9,12 +15,6 @@ import LoadingView from './components/shared/LoadingView';
 import ChatCreate from './views/ChatCreate';
 import { listenToAuthChanges } from './actions/auth';
 import { checkUserConnection } from './actions/connection';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
 import { listenToConnectionChanges } from './actions/app';
 
 function AuthRoute({ children, ...rest }) {
@@ -42,17 +42,27 @@ function ChatApp() {
   const dispatch = useDispatch();
   const isChecking = useSelector(({ auth }) => auth.isChecking);
   const isOnline = useSelector(({ app }) => app.isOnline);
+  const user = useSelector(({ auth }) => auth.user);
 
   useEffect(() => {
     const unsubFromAuth = dispatch(listenToAuthChanges());
     const unsubFromConnection = dispatch(listenToConnectionChanges());
-    const unsubFromUserConnection = dispatch(checkUserConnection());
 
     return () => {
       unsubFromAuth();
       unsubFromConnection();
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    let unsubFromUserConnection;
+    if (user?.uid) {
+      unsubFromUserConnection = dispatch(checkUserConnection(user.uid));
+    }
+    return () => {
+      unsubFromUserConnection && unsubFromUserConnection();
+    };
+  }, [dispatch, user]);
 
   if (!isOnline) {
     return <LoadingView message="Connection lost..." />;
