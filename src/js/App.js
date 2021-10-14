@@ -8,14 +8,14 @@ import {
 } from 'react-router-dom';
 import StoreProvider from './store/StoreProvider';
 import HomeView from './views/Home';
-import SettingsView from './views/Settings';
-import WelcomeView from './views/Welcome';
 import ChatView from './views/Chat';
-import LoadingView from './components/shared/LoadingView';
 import ChatCreate from './views/ChatCreate';
+import WelcomeView from './views/Welcome';
+import SettingsView from './views/Settings';
+import LoadingView from './components/shared/LoadingView';
 import { listenToAuthChanges } from './actions/auth';
-import { checkUserConnection } from './actions/connection';
 import { listenToConnectionChanges } from './actions/app';
+import { checkUserConnection } from './actions/connection';
 
 function AuthRoute({ children, ...rest }) {
   const user = useSelector(({ auth }) => auth.user);

@@ -1,15 +1,15 @@
 import { combineReducers } from 'redux';
-import { createErrorReducer, createFetchingReducer } from './common';
+import { createErrorReducer, createIsFetchingReducer } from './common';
 
 const createLoginReducer = () =>
   combineReducers({
-    isChecking: createFetchingReducer('AUTH_LOGIN'),
+    isChecking: createIsFetchingReducer('AUTH_LOGIN'),
     error: createErrorReducer('AUTH_LOGIN'),
   });
 
 const createRegisterReducer = () =>
   combineReducers({
-    isChecking: createFetchingReducer('AUTH_REGISTER'),
+    isChecking: createIsFetchingReducer('AUTH_REGISTER'),
     error: createErrorReducer('AUTH_REGISTER'),
   });
 
@@ -30,7 +30,7 @@ function createAuthReducer() {
 
   return combineReducers({
     user,
-    isChecking: createFetchingReducer('AUTH_ON'),
+    isChecking: createIsFetchingReducer('AUTH_ON'),
     login: createLoginReducer(),
     register: createRegisterReducer(),
   });

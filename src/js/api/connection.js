@@ -4,19 +4,19 @@ import db from '../db/firestore';
 
 const getOnlineStatus = (isOnline) => ({
   state: isOnline ? 'online' : 'offline',
-  lastChanged: Timestamp.now(),
+  lastChanged: Timestamp.now()
 });
 
 export const setUserOnlineStatus = (uid, isOnline) => {
-  const useRef = doc(db, `/profiles/${uid}`);
+  const userRef = doc(db, `/profiles/${uid}`);
   const updateData = getOnlineStatus(isOnline);
-  return updateDoc(useRef, updateData);
+  return updateDoc(userRef, updateData);
 };
 
 export const onConnectionChanged = (onConnection) => {
   const dbRef = getDatabase();
   const conRef = ref(dbRef, '.info/connected');
-  onValue(conRef, (snapshot) => {
+  return onValue(conRef, (snapshot) => {
     const isConnected = snapshot?.val() ? snapshot.val() : false;
     onConnection(isConnected);
   });

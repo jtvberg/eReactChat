@@ -5,16 +5,15 @@ export const createErrorReducer =
       case `${actionType}_INIT`:
         return null;
       case `${actionType}_ERROR`:
-        console.log(action.error);
         return action.error;
       default:
         return state;
     }
   };
 
-export const createFetchingReducer =
+export const createIsFetchingReducer =
   (actionType) =>
-  (state = null, action) => {
+  (state = false, action) => {
     switch (action.type) {
       case `${actionType}_INIT`:
         return true;

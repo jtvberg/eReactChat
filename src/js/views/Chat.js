@@ -9,7 +9,7 @@ import { subscribeToChat, subscribeToProfile } from '../actions/chats';
 
 function Chat() {
   const { id } = useParams();
-  const userWatcher = useRef({});
+  const peopleWatchers = useRef({});
   const dispatch = useDispatch();
   const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
   const joinedUsers = activeChat?.joinedUsers;
@@ -28,13 +28,18 @@ function Chat() {
 
   const subscribeToJoinedUsers = (jUsers) => {
     jUsers.forEach((user) => {
-      if (!userWatcher.current[user.uid])
-        userWatcher.current[user.uid] = dispatch(subscribeToProfile(user.uid));
+      if (!peopleWatchers.current[user.uid]) {
+        peopleWatchers.current[user.uid] = dispatch(
+          subscribeToProfile(user.uid)
+        );
+      }
     });
   };
 
   const unsubFromJoinedUsers = () => {
-    Object.keys(userWatcher.current).forEach((id) => userWatcher.current[id]());
+    Object.keys(peopleWatchers.current).forEach((id) =>
+      peopleWatchers.current[id]()
+    );
   };
 
   return (
@@ -43,7 +48,7 @@ function Chat() {
         <ChatUsers users={activeChat?.joinedUsers} />
       </div>
       <div className="col-9 fh">
-        <ViewTitle text={`Channel: ${activeChat?.name}`} />
+        <ViewTitle text={`Channel ${activeChat?.name}`} />
         <ChatMessages />
       </div>
     </div>

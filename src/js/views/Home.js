@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import JoinedChats from '../components/JoinedChats';
 import AvailableChats from '../components/AvailableChats';
 import ViewTitle from '../components/shared/ViewTitle';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchChats } from '../actions/chats';
 import { withBaseLayout } from '../layouts/Base';
-import { Link } from 'react-router-dom';
+import { fetchChats } from '../actions/chats';
 import Notification from '../utils/notifications';
 
 function Home() {

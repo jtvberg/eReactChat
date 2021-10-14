@@ -7,7 +7,7 @@ export default {
     } else if (Notification.permission !== 'denied') {
       Notification.requestPermission().then((perm) => {
         if (perm === 'granted') {
-          console.log('permission granted');
+          console.log('Permission granted');
         }
       });
     }
