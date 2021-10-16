@@ -5,8 +5,13 @@ import ChatUsers from '../components/ChatUsers';
 import ChatMessages from '../components/ChatMessages';
 import ViewTitle from '../components/shared/ViewTitle';
 import LoadingView from '../components/shared/LoadingView';
+import Messenger from '../components/Messenger';
 import { withBaseLayout } from '../layouts/Base';
-import { subscribeToChat, subscribeToProfile } from '../actions/chats';
+import {
+  subscribeToChat,
+  subscribeToProfile,
+  sendChatMessage
+} from '../actions/chats';
 
 function Chat() {
   const { id } = useParams();
@@ -27,13 +32,18 @@ function Chat() {
     joinedUsers && subscribeToJoinedUsers(joinedUsers);
   }, [joinedUsers]);
 
-  const subscribeToJoinedUsers = useCallback((jUsers) => {
-    jUsers.forEach((user) => {
-      if (!peopleWatchers.current[user.uid]) {
-        peopleWatchers.current[user.uid] = dispatch(subscribeToProfile(user.uid, id));
-      }
-    });
-  }, [dispatch, id]);
+  const subscribeToJoinedUsers = useCallback(
+    (jUsers) => {
+      jUsers.forEach((user) => {
+        if (!peopleWatchers.current[user.uid]) {
+          peopleWatchers.current[user.uid] = dispatch(
+            subscribeToProfile(user.uid, id)
+          );
+        }
+      });
+    },
+    [dispatch, id]
+  );
 
   const unsubFromJoinedUsers = useCallback(() => {
     Object.keys(peopleWatchers.current).forEach((id) =>
@@ -45,6 +55,14 @@ function Chat() {
     return <LoadingView message="Loading Chat" />
   }
 
+  const sendMessage = message => {
+    dispatch(sendChatMessage(message, id))
+  }
+
+  // const sendMessage = useCallback(message => {
+  //   dispatch(sendChatMessage(message, id))
+  // }, [id])
+
   return (
     <div className="row no-gutters fh">
       <div className="col-3 fh">
@@ -53,6 +71,7 @@ function Chat() {
       <div className="col-9 fh">
         <ViewTitle text={`Channel ${activeChat?.name}`} />
         <ChatMessages />
+        <Messenger onSubmit={sendMessage} />
       </div>
     </div>
   );

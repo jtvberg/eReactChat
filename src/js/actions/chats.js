@@ -1,6 +1,7 @@
 import * as api from '../api/chats';
 import db from '../db/firestore';
 import { doc, getDoc } from 'firebase/firestore';
+import { getAuth } from "firebase/auth";
 
 export const fetchChats = () => async (dispatch, getState) => {
   const { user } = getState().auth;
@@ -59,3 +60,11 @@ export const subscribeToProfile = (uid, chatId) => (dispatch) =>
   api.subscribeToProfile(uid, (user) => {
     dispatch({ type: 'CHATS_UPDATE_USER_STATE', user, chatId });
   });
+
+export const sendChatMessage = (message, chatId) => (dispatch) => {
+  const newMessage = {...message};
+  const uid = getAuth().currentUser.uid
+  const userRef = doc(db, 'profiles', uid);
+  newMessage.author = userRef;
+  return api.sendChatMessage(newMessage, chatId).then(_ => dispatch({type: 'CHATS_MESSAGE_SENT'}));
+}
