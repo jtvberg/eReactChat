@@ -42,6 +42,7 @@ function ChatCreate() {
                 ref={register}
                 className="form-control"
                 id="description"
+                name="description"
               ></textarea>
             </div>
             <div className="form-group">
