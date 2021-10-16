@@ -8,8 +8,11 @@ function createWindow() {
     height: 800,
     backgroundColor: 'white',
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
+      nodeIntegration: false,
+      worldSafeExecuteJavaScript: true,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
+    }
   });
 
   win.loadFile('index.html');

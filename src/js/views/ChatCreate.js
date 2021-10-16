@@ -29,7 +29,7 @@ function ChatCreate() {
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input
-                {...register('name')}
+                ref={register}
                 type="text"
                 className="form-control"
                 id="name"
@@ -39,7 +39,7 @@ function ChatCreate() {
             <div className="form-group">
               <label htmlFor="description">Description</label>
               <textarea
-                {...register('description')}
+                ref={register}
                 className="form-control"
                 id="description"
               ></textarea>
@@ -47,7 +47,7 @@ function ChatCreate() {
             <div className="form-group">
               <label htmlFor="image">Image</label>
               <input
-                {...register('image')}
+                ref={register}
                 type="text"
                 className="form-control"
                 id="image"

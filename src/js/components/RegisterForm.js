@@ -24,10 +24,11 @@ export default function RegisterForm() {
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
-            {...register('email')}
+            ref={register}
             type="email"
             className="form-control"
             id="email"
+            name="email"
             aria-describedby="emailHelp"
           />
           <small id="emailHelp" className="form-text text-muted">
@@ -37,30 +38,33 @@ export default function RegisterForm() {
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input
-            {...register('username')}
+            ref={register}
             type="text"
             className="form-control"
             id="username"
+            name="username"
             aria-describedby="emailHelp"
           />
         </div>
         <div className="form-group">
           <label htmlFor="avatar">Avatar</label>
           <input
-            {...register('avatar')}
+            ref={register}
             type="text"
             className="form-control"
             id="avatar"
+            name="avatar"
             aria-describedby="emailHelp"
           />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
-            {...register('password')}
+            ref={register}
             type="password"
             className="form-control"
             id="password"
+            name="password"
           />
         </div>
         {error && (

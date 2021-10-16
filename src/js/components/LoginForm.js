@@ -25,10 +25,11 @@ export default function LoginForm() {
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
-            {...register('email')}
+            ref={register}
             type="email"
             className="form-control"
             id="email"
+            name="email"
             aria-describedby="emailHelp"
           />
           <small id="emailHelp" className="form-text text-muted">
@@ -38,10 +39,11 @@ export default function LoginForm() {
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
-            {...register('password')}
+            ref={register}
             type="password"
             className="form-control"
             id="password"
+            name="password"
           />
         </div>
         {error && (
