@@ -68,3 +68,15 @@ export const sendChatMessage = (message, chatId) => (dispatch) => {
   newMessage.author = userRef;
   return api.sendChatMessage(newMessage, chatId).then(_ => dispatch({type: 'CHATS_MESSAGE_SENT'}));
 }
+
+export const subscribeToMessages = chatId => dispatch => {
+  return api.subscribeToMessages(chatId, messages => {
+    const chatMessages = messages.map(message => {
+      if (message.type === 'added') {
+        console.log({ id: message.doc.id, ...message.doc.data() })
+        return { id: message.doc.id, ...message.doc.data() }
+      }
+    })
+    return dispatch({type: 'CHATS_SET_MESSAGES', messages: chatMessages, chatId})
+  })
+}

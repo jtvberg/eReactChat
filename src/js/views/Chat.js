@@ -10,7 +10,8 @@ import { withBaseLayout } from '../layouts/Base';
 import {
   subscribeToChat,
   subscribeToProfile,
-  sendChatMessage
+  sendChatMessage,
+  subscribeToMessages
 } from '../actions/chats';
 
 function Chat() {
@@ -18,10 +19,12 @@ function Chat() {
   const peopleWatchers = useRef({});
   const dispatch = useDispatch();
   const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
+  // const messages = useSelector(({ chats }) => chats.messages[id]);
   const joinedUsers = activeChat?.joinedUsers;
 
   useEffect(() => {
     const unsubFromChat = dispatch(subscribeToChat(id));
+    dispatch(subscribeToMessages(id));
     return () => {
       unsubFromChat();
       unsubFromJoinedUsers();
@@ -70,7 +73,7 @@ function Chat() {
       </div>
       <div className="col-9 fh">
         <ViewTitle text={`Channel ${activeChat?.name}`} />
-        <ChatMessages />
+        <ChatMessages messages={[]} />
         <Messenger onSubmit={sendMessage} />
       </div>
     </div>

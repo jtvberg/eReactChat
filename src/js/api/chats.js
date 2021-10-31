@@ -46,3 +46,18 @@ export const sendChatMessage = (message, chatId) => {
   const messageRef = collection(chatRef, 'messages');
   return addDoc(messageRef, message);
 }
+
+export const subscribeToMessages = (chatId, onSubscribe) => {
+  const chatRef = doc(db, 'chats', chatId);
+  const messageRef = collection(chatRef, 'messages');
+  return onSnapshot(messageRef, (snapshot) => {
+    onSubscribe(snapshot.docChanges())
+  })
+}
+
+// export const subscribeToMessages = (chatId, onSubscribe) =>
+//   db
+//     .collection('chats')
+//     .doc(chatId)
+//     .collection('messages')
+//     .onSnapshot(snapshot => onSubscribe(snapshot.docChanges()))
